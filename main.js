@@ -28,12 +28,14 @@ var capture = {
 		    y = e.offsetY;
 
 		for( var i = 0; i < capture.handlers.length; i++ ){
+
 			var handle = capture.handlers[i];
 			if( x >= handle.x && x <= handle.x + handle.w
 				&& y >= handle.y && y <= handle.y + handle.h ){
 				handle.fire( x, y, e );
+			    capture.handlers.splice(i,1);
 			}
-			capture.handlers.splice(i,1);
+
 		}
 	}
 };
@@ -54,34 +56,36 @@ var shape1 = (function(){
 			w: hidden[2],
 			h: hidden[3],
 			fire: function(){
-				console.log('show engine');
+
 				engine.action({
 					start: 0,
-					end: 2500,
+					end: 500,
 					on: function( prog ){
 
     				    //Don't I wish I wrote something to handle this
     				    for( var i = 0; i < 4; i++ ){
     				    	current[i] = hidden[i] + ( initial[i] - hidden[i] ) * prog;
     				    }
+
     				},
     				final: hide
     			});
 			}
 		});
 	};
+
 	var hide = function(){
 
 		capture.handler({
-			x: current[0],
-			y: current[1],
-			w: current[2],
-			h: current[3],
+			x: initial[0],
+			y: initial[1],
+			w: initial[2],
+			h: initial[3],
 			fire: function(){
-				console.log('hide engine');
+
 				engine.action({
 					start: 0,
-					end: 2500,
+					end: 750,
 					on: function( prog ){
 
     				    //Don't I wish I wrote something to handle this

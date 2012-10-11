@@ -99,6 +99,7 @@ var engineProto = {
     tickActions: function(){
 
         var actions = this.actions;
+
         for( var i = 0; i < actions.length; i++ ){
 
             var progress,
@@ -112,14 +113,10 @@ var engineProto = {
 
             if( action.start <= this.currentTime ){
 
-                if( !action.end ){
+                if( !action.end || action.end <= this.currentTime ){
 
-                    action.on( progress );
-                    if( action.final ){
-                        action.final();
-                    }
-                    this.removeAction( action );
-                } else if( action.end <= this.currentTime ) {
+                    //Ensure final position
+                    action.on( 1 );
                     if( action.final ){
                         action.final();
                     }
